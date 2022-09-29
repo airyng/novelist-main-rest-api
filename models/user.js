@@ -1,18 +1,18 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const gameSchema = new mongoose.Schema({
-  title: {
+const userSchema = new mongoose.Schema({
+  name: {
     type: String,
     required: true
   },
-  description: {
+  email: {
     type: String,
-    required: true
+    default: null
   },
-  status: {
+  avatar_id: {
     type: String,
-    required: true
+    default: null
   },
   created_at: {
     type: Date,
@@ -22,18 +22,14 @@ const gameSchema = new mongoose.Schema({
     type: Date,
     default: Date.now()
   },
-  json: {
-    type: String,
-    required: true
-  },
-  author: {
+  sex: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: 'Sex'
   },
-  published_at: {
-    type: Date,
-    default: null
+  role: {
+    type: Schema.Types.ObjectId,
+    ref: 'Role'
   }
 })
 
-module.exports = mongoose.model('Game', gameSchema)
+module.exports = mongoose.model('User', userSchema)

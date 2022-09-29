@@ -3,7 +3,7 @@
  * @param {Object} model Класс обрабатываемой модели
  */
 function getItemById (model) {
-    return async function (req, res, next) {
+  return async function (req, res, next) {
     if (!req.params.id) { return }
 
     let item

@@ -5,6 +5,7 @@ const app = express()
 const mongoose = require('mongoose')
 const router = require('./router')
 const corsMiddleware = require('./middlewares/corsMiddleware')
+const port = process.env.PORT || 3000
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -17,4 +18,4 @@ app.use(corsMiddleware)
 
 app.use('/', router)
 
-app.listen(process.env.PORT || 3000, () => console.log('Server Started'))
+app.listen(port, () => console.log('Server started on port: ' + port))

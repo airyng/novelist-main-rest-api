@@ -2,6 +2,26 @@ const express = require('express')
 const router = express.Router()
 
 const gameController = require('../controllers/game')
+const userController = require('../controllers/user')
+const roleController = require('../controllers/role')
+const sexController = require('../controllers/sex')
+
+
+// [Users - Start]
+
+// Getting all users
+router.get('/users', userController.do('getItems'))
+
+// Getting One user
+router.get('/users/:id', userController.do('getItem'))
+
+// Creating one user
+router.post('/users', userController.do('create'))
+
+// Updating One user
+router.patch('/users/:id', userController.do('update'))
+
+// [Games - End]
 
 // [Games - Start]
 
@@ -21,5 +41,37 @@ router.patch('/games/:id', gameController.do('update'))
 router.delete('/games/:id', gameController.do('delete'))
 
 // [Games - End]
+
+// [Sex - Start]
+
+// Getting all sex
+router.get('/sex', sexController.do('getItems'))
+
+// Getting One sex
+router.get('/sex/:id', sexController.do('getItem'))
+
+// Creating one sex
+router.post('/sex', sexController.do('create'))
+
+// Deleting One sex
+router.delete('/sex/:id', sexController.do('delete'))
+
+// [Sex - End]
+
+// [Roles - Start]
+
+// Getting all roles
+router.get('/roles', roleController.do('getItems'))
+
+// Getting One role
+router.get('/roles/:id', roleController.do('getItem'))
+
+// Creating one role
+router.post('/roles', roleController.do('create'))
+
+// Deleting One role
+router.delete('/roles/:id', roleController.do('delete'))
+
+// [Roles - End]
 
 module.exports = router
