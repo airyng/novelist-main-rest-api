@@ -1,11 +1,11 @@
 require('dotenv').config()
 
-const express = require('express')
-const app = express()
-const mongoose = require('mongoose')
-const router = require('./router')
-const corsMiddleware = require('./middlewares/corsMiddleware')
-const port = process.env.PORT || 3000
+const express = require('express'),
+      app = express(),
+      mongoose = require('mongoose'),
+      router = require('./router'),
+      corsMiddleware = require('./middlewares/corsMiddleware'),
+      port = process.env.PORT || 3000
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection

@@ -4,7 +4,7 @@
  * в объекте обрабатываемой модели
  * @param {Object} model Класс обрабатываемой модели
  */
- function setUpdatedAtToBody (model) {
+ function setUpdatedAtToModelBody (model) {
   return async function (req, res, next) {
     if (!req.body.updated_at) {
       req.body.updated_at = Date.now()
@@ -13,4 +13,4 @@
   }
 }
 
-module.exports = setUpdatedAtToBody
+module.exports = setUpdatedAtToModelBody

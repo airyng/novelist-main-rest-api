@@ -1,7 +1,9 @@
-const getItemByIdMiddleware = require('../../middlewares/getItemById')
-const setUpdatedAtToBodyMiddleware = require('../../middlewares/setUpdatedAtToBody')
+const BaseController = require('./Base')
 
-class DefaultController {
+const getItemByIdMiddleware = require('../../middlewares/getItemById')
+const setUpdatedAtToModelBodyMiddleware = require('../../middlewares/setUpdatedAtToModelBody')
+
+class DefaultController extends BaseController {
   // Основная модель взаимодействующая с контроллером
   model = null
   // Структура взаимосвязи методов с посредниками
@@ -9,37 +11,15 @@ class DefaultController {
   // значение - массив посредников, которые должны вызваться перед ключевым колбеком
   middlewaresRelations = {
     getItem: [getItemByIdMiddleware],
-    update: [getItemByIdMiddleware, setUpdatedAtToBodyMiddleware],
+    update: [getItemByIdMiddleware, setUpdatedAtToModelBodyMiddleware],
     delete: [getItemByIdMiddleware],
   }
 
   constructor (model) {
+    super()
     if (!model) throw new Error('DefaultController require to have model as first argument')
 
     this.model = model
-  }
-
-  /**
-   * Метод формирующий цепочку обработчиков запроса в виде массива.
-   * Первыми методами подставляются "посредники", которые связаны с основным обработчиком запроса - последним элементом массива
-   * @param {String} methodName Название метода, который должен обработать запрос
-   * @returns {Array} Массив методов, которые будут выполняться последовательно для корректной обработки запроса
-   */
-  do (methodName) {
-    if (typeof this[methodName] !== 'function') throw new Error('Given value isn\'t an existent function name')
-
-    const methodsChain = []
-
-    if (this.middlewaresRelations[methodName]?.length) {
-      this.middlewaresRelations[methodName].map(getMiddleware => {
-        if (typeof getMiddleware === 'function') {
-          methodsChain.push(getMiddleware(this.model))
-        }
-      })
-    }
-    methodsChain.push(this[methodName].bind(this))
-
-    return methodsChain
   }
 
   /**
