@@ -1,10 +1,14 @@
+const Encryptor = require('../helpers/Encryptor')
 const User = require('../models/user')
 const Role = require('../models/role')
 const Sex = require('../models/sex')
 
+const DEFAULT_ADMIN_PASSWORD = '2QBJNxZMHK'
+
 const admin = {
   name: 'Admin',
   email: 'airyng@yandex.ru',
+  passwordHash: null,
   avatar_id: null,
   sex: null, // male
   role: null // admin
@@ -17,8 +21,11 @@ async function up () {
   try {
     const sex = await this('sex', Sex.schema).findOne({title: 'male'})
     const role = await this('role', Role.schema).findOne({title: 'admin'})
+    
     admin.sex = sex?._id || null
     admin.role = role?._id || null
+    admin.passwordHash = Encryptor.hash(DEFAULT_ADMIN_PASSWORD)
+
     await this('user', User.schema).create(admin)
   } catch (err) {
     throw new Error(err?.message)

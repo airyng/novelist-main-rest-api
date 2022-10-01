@@ -1,27 +1,22 @@
-const DefaultController = require("./classes/default")
+const DefaultController = require('./classes/Default')
 const User = require('../models/user')
+const authenticateTokenMiddleware = require('../middlewares/authenticateToken')
 
 class UserController extends DefaultController {
 
   constructor (model) {
     super(model)
     this.middlewaresRelations.getItem = []
+    this.middlewaresRelations.getProfile = [authenticateTokenMiddleware]
   }
 
   /**
-   * Обработчик запроса возвращающий все записи
+   * Обработчик запроса возвращающий данные авторизованного пользователя
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
-   async getItems (req, res) {
-    try {
-      const items = await this.model.find()
-                      .populate('role')
-                      .populate('sex')
-      res.json(items)
-    } catch (err) {
-      res.status(500).json({ message: err.message })
-    }
+  async getProfile (req, res) {
+    res.json(req.user)
   }
 
   /**
@@ -29,7 +24,7 @@ class UserController extends DefaultController {
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
-  async getItem (req, res) {
+   async getItem (req, res) {
     if (!req.params.id) {
       res.status(400)
       return
@@ -37,7 +32,9 @@ class UserController extends DefaultController {
 
     let item
     try {
-      item = await this.model.findById(req.params.id)
+      item = await this.model
+              .findById(req.params.id)
+              .select('-passwordHash')
               .populate('role')
               .populate('sex')
       
@@ -47,7 +44,26 @@ class UserController extends DefaultController {
     } catch (err) {
       return res.status(500).json({ message: err.message })
     }
+    delete item.passwordHash
     res.json(item)
+  }
+
+  /**
+   * Обработчик запроса возвращающий все записи
+   * @param {Object} req Объект запроса
+   * @param {Object} res Объект ответа
+   */
+   async getItems (req, res) {
+    try {
+      const items = await this.model
+                      .find()
+                      .select('-passwordHash')
+                      .populate('role')
+                      .populate('sex')
+      res.json(items)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
   }
 }
 
