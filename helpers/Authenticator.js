@@ -1,30 +1,33 @@
 const jwt = require('jsonwebtoken')
+const RefreshToken = require('../models/refreshToken.js')
 
 class Authenticator {
-
-  //TODO: refresh токены надо бы хранить в бд, а не в оперативной памяти
-  static #refreshTokens = []
 
   static signIn (userId) {
     const payload = { userId }
 
     const accessToken = this.#generateAccessToken(payload)
     const refreshToken = jwt.sign(payload, process.env.REFRESH_TOKEN_SECRET)
-    this.#refreshTokens.push(refreshToken)
+
+    const token = new RefreshToken({ token: refreshToken })
+    // Здесь предумышленно не обрабатываются ошибки, так как их значение на функционал минимально.
+    // В случае необходимости их обработки, лучше будет подключить сохранение логов в файл и добавить здесь.
+    token.save()
 
     return { accessToken, refreshToken }
   }
 
-  static signOut (refreshToken) {
-    this.#refreshTokens = this.#refreshTokens.filter(token => token !== refreshToken)
+  static async signOut (refreshToken) {
+    await RefreshToken.deleteOne({ token: refreshToken })
   }
 
-  static refreshAccessToken (refreshToken) {
-    if (!this.#refreshTokens.includes(refreshToken)) return false
+  static async refreshAccessToken (refreshToken) {
+    const foundToken = await RefreshToken.findOne({ token: refreshToken })
+    if (!foundToken) return false
 
     return jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, payload) => {
       if (err) return false
-      return { accessToken: this.#generateAccessToken(payload) }
+      return { accessToken: this.#generateAccessToken({ userId: payload.userId }) }
     })
   }
 

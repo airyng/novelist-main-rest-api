@@ -10,7 +10,6 @@ function authenticateToken (model) {
     const user = await User.findByToken(token)
 
     if (!user) { return res.sendStatus(403) }
-
     req.user = user
 
     next()
