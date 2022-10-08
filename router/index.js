@@ -5,7 +5,7 @@ const gameController = require('../controllers/game')
 const userController = require('../controllers/user')
 const authController = require('../controllers/authenticate')
 // const roleController = require('../controllers/role')
-// const sexController = require('../controllers/sex')
+const sexController = require('../controllers/sex')
 
 //TODO: настроить модульную систему роутов. чтобы каждый файл отвечал за настройку роутов под своим контроллером
 // и в этом файле достаточно было просто подключить модули
@@ -18,7 +18,7 @@ router.post('/login', authController.do('login'))
 
 router.post('/token', authController.do('token'))
 
-router.delete('/logout', authController.do('logout'))
+router.delete('/logout/:token', authController.do('logout'))
 
 // [Auth - End]
 
@@ -64,7 +64,7 @@ router.delete('/games/:id', gameController.do('delete'))
 // [Sex - Start]
 
 // Getting all sex
-// router.get('/sex', sexController.do('getItems'))
+router.get('/sex', sexController.do('getItems'))
 
 // // Getting One sex
 // router.get('/sex/:id', sexController.do('getItem'))
