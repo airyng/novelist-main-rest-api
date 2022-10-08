@@ -15,7 +15,7 @@ class UserController extends DefaultController {
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
-  async getProfile (req, res) {
+  getProfile (req, res) {
     res.json(req.user)
   }
 
@@ -44,7 +44,6 @@ class UserController extends DefaultController {
     } catch (err) {
       return res.status(500).json({ message: err.message })
     }
-    delete item.passwordHash
     res.json(item)
   }
 

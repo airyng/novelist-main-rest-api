@@ -1,7 +1,8 @@
+const User = require('./user')
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 
-const gameSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   title: {
     type: String,
     required: true
@@ -28,7 +29,7 @@ const gameSchema = new mongoose.Schema({
   },
   author: {
     type: Schema.Types.ObjectId,
-    ref: 'User'
+    ref: User
   },
   published_at: {
     type: Date,
@@ -36,4 +37,4 @@ const gameSchema = new mongoose.Schema({
   }
 })
 
-module.exports = mongoose.model('Game', gameSchema)
+module.exports = mongoose.model('Game', schema)

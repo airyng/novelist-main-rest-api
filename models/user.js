@@ -4,7 +4,7 @@ const Authenticator = require('../helpers/Authenticator')
 const Role = require('./role')
 const Sex = require('./sex')
 
-const userSchema = new mongoose.Schema({
+const schema = new mongoose.Schema({
   name: {
     type: String,
     required: true
@@ -12,7 +12,8 @@ const userSchema = new mongoose.Schema({
   email: {
     type: String,
     default: null,
-    required: true
+    required: true,
+    unique : true
   },
   passwordHash: {
     type: String,
@@ -42,12 +43,11 @@ const userSchema = new mongoose.Schema({
   }
 })
 
-const userModel = mongoose.model('User', userSchema)
+const userModel = mongoose.model('User', schema)
 
 userModel.findByToken = async function (accessToken) {
 
   const tokenPayload = Authenticator.decodeToken(accessToken)
-
   if (!tokenPayload) { return false }
 
   let user = null
