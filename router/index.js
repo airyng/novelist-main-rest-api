@@ -40,7 +40,7 @@ router.post('/users', userController.do('create'))
 // Updating One user
 router.patch('/users/:id', userController.do('update'))
 
-// [Games - End]
+// [Users - End]
 
 // [Games - Start]
 
