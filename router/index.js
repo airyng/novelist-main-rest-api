@@ -44,6 +44,9 @@ router.patch('/users/:id', userController.do('update'))
 
 // [Games - Start]
 
+// Getting all games that belongs authenticated user
+router.get('/games/my', gameController.do('getAuthUserItems'))
+
 // Getting all games
 router.get('/games', gameController.do('getItems'))
 
