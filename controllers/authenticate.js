@@ -33,7 +33,7 @@ class AuthenticateController extends BaseController {
 
   // Authenticate User
   async login (req, res) {
-    if (req.headers['authorization']) { return res.sendStatus(403) }
+    if (req.headers['authorization']) { return res.status(403).json({ message: 'Authorization header wasn\'t provided.', status: 403}) }
 
     const user = await User.findOne({email: req.body.email })
     if (!user) return res.sendStatus(404)

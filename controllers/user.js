@@ -1,6 +1,7 @@
 const DefaultController = require('./classes/Default')
 const User = require('../models/user')
-const authenticateTokenMiddleware = require('../middlewares/authenticateToken')
+const authenticateTokenMiddleware = require.main.require('./middlewares/authenticateToken')
+const getItemByIdMiddleware = require.main.require('./middlewares/getItemById')
 
 class UserController extends DefaultController {
 
@@ -8,6 +9,7 @@ class UserController extends DefaultController {
     super(model)
     this.middlewaresRelations.getItem = []
     this.middlewaresRelations.getProfile = [authenticateTokenMiddleware]
+    this.middlewaresRelations.update = [authenticateTokenMiddleware, getItemByIdMiddleware]
   }
 
   /**
@@ -26,7 +28,7 @@ class UserController extends DefaultController {
    */
    async getItem (req, res) {
     if (!req.params.id) {
-      res.status(400)
+      res.status(400).json({ message: `Cannot find user without id`, status: 400 })
       return
     }
 
@@ -39,7 +41,7 @@ class UserController extends DefaultController {
               .populate('sex')
       
       if (item == null) {
-        return res.status(404).json({ message: `Cannot find ${this.model.name} by given id` })
+        return res.status(404).json({ message: `Cannot find user by given id` })
       }
     } catch (err) {
       return res.status(500).json({ message: err.message })
@@ -63,6 +65,18 @@ class UserController extends DefaultController {
     } catch (err) {
       res.status(500).json({ message: err.message })
     }
+  }
+
+  async update (req, res) {
+    if (res.item._id !== req.user._id && req.user.role?.title !== 'admin') {
+      res.status(403).json({ message: 'Недостаточно прав для обновления данных профиля.', status: 403, debug: {
+        item: res.item._id,
+        user: req.user._id,
+        role: req.user.role?.title
+      } })
+      return
+    }
+    super.update(req, res)
   }
 }
 

@@ -1,12 +1,13 @@
 const DefaultController = require('./classes/Default')
 const Game = require('../models/game')
-
+const authenticateTokenMiddleware = require.main.require('./middlewares/authenticateToken')
 
 class GameController extends DefaultController {
 
   constructor (model) {
     super(model)
     this.middlewaresRelations.getItem = []
+    this.middlewaresRelations.getAuthUserItems = [authenticateTokenMiddleware]
   }
 
   /**
@@ -45,6 +46,21 @@ class GameController extends DefaultController {
       const items = await this.model
                       .find()
                       .populate('author', ['name', 'avatar_id'])
+      res.json(items)
+    } catch (err) {
+      res.status(500).json({ message: err.message })
+    }
+  }
+
+  /**
+   * Обработчик запроса возвращающий записи авторизованного пользователя
+   * @param {Object} req Объект запроса
+   * @param {Object} res Объект ответа
+   */
+   async getAuthUserItems (req, res) {
+    try {
+      const items = await this.model
+                      .find({ author: req.user._id })
       res.json(items)
     } catch (err) {
       res.status(500).json({ message: err.message })
