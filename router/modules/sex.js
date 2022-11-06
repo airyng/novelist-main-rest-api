@@ -1,16 +1,17 @@
 const sexController = require.main.require('./controllers/sex')
+const Sex = require.main.require('./models/sex')
 
-module.exports = function (router) {
+module.exports = function (router, middlewares) {
   
   // Getting all sex
-  router.get('/sex', sexController.do('getItems'))
+  router.get('/sex', middlewares.getItemById(Sex), sexController.getItems)
   
   // Getting One sex
-  // router.get('/sex/:id', sexController.do('getItem'))
+  // router.get('/sex/:id', middlewares.getItemById(Sex), sexController.getItem)
 
   // Creating one sex
-  // router.post('/sex', sexController.do('create'))
+  // router.post('/sex', sexController.create)
 
   // Deleting One sex
-  // router.delete('/sex/:id', sexController.do('delete'))
+  // router.delete('/sex/:id', middlewares.getItemById(Sex), sexController.delete)
 }

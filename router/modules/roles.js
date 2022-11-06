@@ -1,16 +1,17 @@
 // const roleController = require.main.require('./controllers/role')
+// const Role = require.main.require('./models/role')
 
-module.exports = function (router) {
+module.exports = function (router, middlewares) {
   
   // Getting all roles
-  // router.get('/roles', roleController.do('getItems'))
+  // router.get('/roles', roleController.getItems)
 
   // Getting One role
-  // router.get('/roles/:id', roleController.do('getItem'))
+  // router.get('/roles/:id', middlewares.getItemById(Role), roleController.getItem)
 
   // Creating one role
-  // router.post('/roles', roleController.do('create'))
+  // router.post('/roles', middlewares.getItemById(Role), roleController.create)
 
   // Deleting One role
-  // router.delete('/roles/:id', roleController.do('delete'))
+  // router.delete('/roles/:id', middlewares.getItemById(Role), roleController.delete)
 }

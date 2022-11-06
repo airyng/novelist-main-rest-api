@@ -1,15 +1,10 @@
 const DefaultController = require('./classes/Default')
 const User = require('../models/user')
-const authenticateTokenMiddleware = require.main.require('./middlewares/authenticateToken')
-const getItemByIdMiddleware = require.main.require('./middlewares/getItemById')
 
 class UserController extends DefaultController {
 
   constructor (model) {
     super(model)
-    this.middlewaresRelations.getItem = []
-    this.middlewaresRelations.getProfile = [authenticateTokenMiddleware]
-    this.middlewaresRelations.update = [authenticateTokenMiddleware, getItemByIdMiddleware]
   }
 
   /**
@@ -59,8 +54,6 @@ class UserController extends DefaultController {
       const items = await this.model
                       .find()
                       .select('-passwordHash')
-                      .populate('role')
-                      .populate('sex')
       res.json(items)
     } catch (err) {
       res.status(500).json({ message: err.message })

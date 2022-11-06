@@ -1,22 +1,23 @@
 const gameController = require.main.require('./controllers/game')
+const Game = require.main.require('./models/game')
 
-module.exports = function (router) {
+module.exports = function (router, middlewares) {
   
   // Getting all games that belongs authenticated user
-  router.get('/games/my', gameController.do('getAuthUserItems'))
+  router.get('/games/my', middlewares.authenticateToken, gameController.getAuthUserItems)
 
   // Getting all games
-  router.get('/games', gameController.do('getItems'))
+  router.get('/games', gameController.getItems)
 
   // Getting One game
-  router.get('/games/:id', gameController.do('getItem'))
+  router.get('/games/:id', middlewares.getItemById(Game), gameController.getItem)
 
   // Creating one game
-  router.post('/games', gameController.do('create'))
+  router.post('/games', gameController.create)
 
   // Updating One game
-  router.patch('/games/:id', gameController.do('update'))
+  router.patch('/games/:id', middlewares.getItemById(Game), gameController.update)
 
   // Deleting One game
-  router.delete('/games/:id', gameController.do('delete'))
+  router.delete('/games/:id', middlewares.getItemById(Game), gameController.delete)
 }

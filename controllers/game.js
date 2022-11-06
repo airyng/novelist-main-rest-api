@@ -1,13 +1,10 @@
 const DefaultController = require('./classes/Default')
-const Game = require('../models/game')
-const authenticateTokenMiddleware = require.main.require('./middlewares/authenticateToken')
+const Game = require.main.require('./models/game')
 
 class GameController extends DefaultController {
 
   constructor (model) {
     super(model)
-    this.middlewaresRelations.getItem = []
-    this.middlewaresRelations.getAuthUserItems = [authenticateTokenMiddleware]
   }
 
   /**

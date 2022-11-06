@@ -4,7 +4,7 @@ const express = require('express'),
       app = express(),
       mongoose = require('mongoose'),
       router = require('./router'),
-      corsMiddleware = require('./middlewares/corsMiddleware'),
+      middlewares = require('./boot/middlewareManager'),
       port = process.env.PORT || 3000
 
 mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
@@ -14,7 +14,13 @@ db.once('open', () => console.log('Connected to Database'))
 
 app.use(express.json())
 
-app.use(corsMiddleware)
+// Setup global middlewares
+if (middlewares.global) {
+
+  Object.keys(middlewares.global).map(key => {
+    app.use(middlewares.global[key])
+  })
+}
 
 app.use('/', router)
 

@@ -1,29 +1,16 @@
-const BaseController = require('./Base')
 
-const getItemByIdMiddleware = require('../../middlewares/getItemById')
-const setUpdatedAtToModelBodyMiddleware = require('../../middlewares/setUpdatedAtToModelBody')
-
-class DefaultController extends BaseController {
+class DefaultController {
   // Основная модель взаимодействующая с контроллером
   model = null
-  // Структура взаимосвязи методов с посредниками
-  // ключ - имя вызываемого метода
-  // значение - массив посредников, которые должны вызваться перед ключевым колбеком
-  middlewaresRelations = {
-    getItem: [getItemByIdMiddleware],
-    update: [getItemByIdMiddleware, setUpdatedAtToModelBodyMiddleware],
-    delete: [getItemByIdMiddleware],
-  }
 
   constructor (model) {
-    super()
     if (!model) throw new Error('DefaultController require to have model as first argument')
-
     this.model = model
   }
 
   /**
    * Обработчик запроса возвращающий запись по переданному идентификатору
+   * Для использования этого метода необходимо подключить посредник "getItemById"
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
@@ -58,10 +45,15 @@ class DefaultController extends BaseController {
   /**
    * Обработчик запроса обновляющий все переданные из тела запроса,
    * если у модели есть такие же поля
+   * Для использования этого метода необходимо подключить посредник "getItemById"
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
   async update (req, res) {
+
+    if (!req.body.updated_at) {
+      req.body.updated_at = Date.now()
+    }
 
     Object.keys(req.body).map(key => {
       if (req.body[key] !== undefined && res.item[key] !== undefined) {
@@ -79,6 +71,7 @@ class DefaultController extends BaseController {
 
   /**
    * Обработчик запроса удаляющий запись по id
+   * Для использования этого метода необходимо подключить посредник "getItemById"
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
    */
