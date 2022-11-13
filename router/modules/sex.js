@@ -4,7 +4,7 @@ const Sex = require.main.require('./models/sex')
 module.exports = function (router, middlewares) {
   
   // Getting all sex
-  router.get('/sex', middlewares.getItemById(Sex), sexController.getItems)
+  router.get('/sex', sexController.getItems.bind(sexController))
   
   // Getting One sex
   // router.get('/sex/:id', middlewares.getItemById(Sex), sexController.getItem)

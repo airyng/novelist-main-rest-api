@@ -1,10 +1,10 @@
-// const roleController = require.main.require('./controllers/role')
+const roleController = require.main.require('./controllers/role')
 // const Role = require.main.require('./models/role')
 
 module.exports = function (router, middlewares) {
   
   // Getting all roles
-  // router.get('/roles', roleController.getItems)
+  router.get('/roles', roleController.getItems.bind(roleController))
 
   // Getting One role
   // router.get('/roles/:id', middlewares.getItemById(Role), roleController.getItem)
