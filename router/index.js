@@ -7,7 +7,8 @@ const modules = {
   users: require('./modules/users.js'),
   games: require('./modules/games.js'),
   sex: require('./modules/sex.js'),
-  roles: require('./modules/roles.js')
+  roles: require('./modules/roles.js'),
+  tags: require('./modules/tags.js'),
 }
 
 Object.keys(modules).map(key => {
