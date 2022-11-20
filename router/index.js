@@ -9,6 +9,7 @@ const modules = {
   sex: require('./modules/sex.js'),
   roles: require('./modules/roles.js'),
   tags: require('./modules/tags.js'),
+  backgrounds: require('./modules/backgrounds.js'),
 }
 
 Object.keys(modules).map(key => {
