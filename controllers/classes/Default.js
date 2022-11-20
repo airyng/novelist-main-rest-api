@@ -1,9 +1,11 @@
+const BaseController = require.main.require('./controllers/classes/Base')
 
-class DefaultController {
+class DefaultController extends BaseController {
   // Основная модель взаимодействующая с контроллером
   model = null
 
   constructor (model) {
+    super()
     if (!model) throw new Error('DefaultController require to have model as first argument')
     this.model = model
   }

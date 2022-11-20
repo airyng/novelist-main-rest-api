@@ -4,17 +4,17 @@ const Tag = require.main.require('./models/tag')
 module.exports = function (router, middlewares) {
   
   // Getting all tags
-  router.get('/tags', tagController.getItems.bind(tagController))
+  router.get('/tags', tagController.endpoint('getItems'))
   
   // Getting One tag
   // router.get('/tags/:id', middlewares.getItemById(Tag), sexController.getItem)
 
   // Creating one tag
-  router.post('/tags', tagController.create.bind(tagController))
+  router.post('/tags', tagController.endpoint('create'))
 
   // Updating One tag
-  router.patch('/tags/:id', middlewares.getItemById(Tag), tagController.update.bind(tagController))
+  router.patch('/tags/:id', middlewares.getItemById(Tag), tagController.endpoint('update'))
 
   // Deleting One tag
-  router.delete('/tags/:id', middlewares.getItemById(Tag), tagController.delete.bind(tagController))
+  router.delete('/tags/:id', middlewares.getItemById(Tag), tagController.endpoint('delete'))
 }

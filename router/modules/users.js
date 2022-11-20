@@ -4,14 +4,14 @@ const User = require.main.require('./models/user')
 module.exports = function (router, middlewares) {
   
   // Getting logged user data
-  router.get('/profile', middlewares.authenticateToken, userController.getProfile.bind(userController))
+  router.get('/profile', middlewares.authenticateToken, userController.endpoint('getProfile'))
 
   // Getting all users
-  router.get('/users', userController.getItems.bind(userController))
+  router.get('/users', userController.endpoint('getItems'))
 
   // Getting One user
-  router.get('/users/:id', userController.getItem.bind(userController))
+  router.get('/users/:id', userController.endpoint('getItem'))
 
   // Updating One user
-  router.patch('/users/:id', middlewares.authenticateToken, middlewares.getItemById(User), userController.update.bind(userController))
+  router.patch('/users/:id', middlewares.authenticateToken, middlewares.getItemById(User), userController.endpoint('update'))
 }

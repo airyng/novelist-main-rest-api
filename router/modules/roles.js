@@ -4,7 +4,7 @@ const roleController = require.main.require('./controllers/role')
 module.exports = function (router, middlewares) {
   
   // Getting all roles
-  router.get('/roles', roleController.getItems.bind(roleController))
+  router.get('/roles', roleController.endpoint('getItems'))
 
   // Getting One role
   // router.get('/roles/:id', middlewares.getItemById(Role), roleController.getItem)

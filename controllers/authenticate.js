@@ -2,10 +2,11 @@ const Authenticator = require('../helpers/Authenticator')
 const Encryptor = require('../helpers/Encryptor')
 const Role = require('../models/role')
 const User = require('../models/user')
+const BaseController = require.main.require('./controllers/classes/Base')
 
 const DEFAULT_ROLE = 'user'
 
-class AuthenticateController {
+class AuthenticateController extends BaseController {
   
   async token (req, res) {
     const refreshToken = req.body.refresh_token
