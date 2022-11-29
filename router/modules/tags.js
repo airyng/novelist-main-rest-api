@@ -10,11 +10,28 @@ module.exports = function (router, middlewares) {
   // router.get('/tags/:id', middlewares.getItemById(Tag), sexController.getItem)
 
   // Creating one tag
-  router.post('/tags', tagController.endpoint('create'))
+  router.post(
+    '/tags',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    tagController.endpoint('create')
+  )
 
   // Updating One tag
-  router.patch('/tags/:id', middlewares.getItemById(Tag), tagController.endpoint('update'))
+  router.patch(
+    '/tags/:id',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    middlewares.getItemById(Tag),
+    tagController.endpoint('update')
+  )
 
   // Deleting One tag
-  router.delete('/tags/:id', middlewares.getItemById(Tag), tagController.endpoint('delete'))
+  router.delete(
+    '/tags/:id',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    middlewares.getItemById(Tag),
+    tagController.endpoint('delete')
+  )
 }

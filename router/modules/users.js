@@ -4,7 +4,11 @@ const User = require.main.require('./models/user')
 module.exports = function (router, middlewares) {
   
   // Getting logged user data
-  router.get('/profile', middlewares.authenticateToken, userController.endpoint('getProfile'))
+  router.get(
+    '/profile',
+    middlewares.authenticateToken,
+    userController.endpoint('getProfile')
+  )
 
   // Getting all users
   router.get('/users', userController.endpoint('getItems'))
@@ -13,5 +17,10 @@ module.exports = function (router, middlewares) {
   router.get('/users/:id', userController.endpoint('getItem'))
 
   // Updating One user
-  router.patch('/users/:id', middlewares.authenticateToken, middlewares.getItemById(User), userController.endpoint('update'))
+  router.patch(
+    '/users/:id',
+    middlewares.authenticateToken,
+    middlewares.getItemById(User),
+    userController.endpoint('update')
+  )
 }

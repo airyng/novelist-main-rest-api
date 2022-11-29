@@ -10,11 +10,28 @@ module.exports = function (router, middlewares) {
   // router.patch('/backgrounds/:id', middlewares.authenticateToken, middlewares.getItemById(User), userController.update.bind(userController))
 
   // Creating one back
-  router.post('/backgrounds', backgroundController.endpoint('create'))
+  router.post(
+    '/backgrounds',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    backgroundController.endpoint('create')
+  )
 
   // Updating One back
-  router.patch('/backgrounds/:id', middlewares.getItemById(Background), backgroundController.endpoint('update'))
+  router.patch(
+    '/backgrounds/:id',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    middlewares.getItemById(Background),
+    backgroundController.endpoint('update')
+  )
 
   // Deleting One back
-  router.delete('/backgrounds/:id', middlewares.getItemById(Background), backgroundController.endpoint('delete'))
+  router.delete(
+    '/backgrounds/:id',
+    middlewares.authenticateToken,
+    middlewares.isUserAdmin,
+    middlewares.getItemById(Background),
+    backgroundController.endpoint('delete')
+  )
 }

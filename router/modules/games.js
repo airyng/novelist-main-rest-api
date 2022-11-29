@@ -4,7 +4,11 @@ const Game = require.main.require('./models/game')
 module.exports = function (router, middlewares) {
   
   // Getting all games that belongs authenticated user
-  router.get('/games/my', middlewares.authenticateToken, gameController.endpoint('getAuthUserItems'))
+  router.get(
+    '/games/my',
+    middlewares.authenticateToken,
+    gameController.endpoint('getAuthUserItems')
+  )
 
   // Getting all games
   router.get('/games', gameController.endpoint('getItems'))
@@ -13,11 +17,24 @@ module.exports = function (router, middlewares) {
   router.get('/games/:id', middlewares.getItemById(Game), gameController.endpoint('getItem'))
 
   // Creating one game
-  router.post('/games', gameController.endpoint('create'))
+  router.post(
+    '/games',
+    middlewares.authenticateToken,
+    gameController.endpoint('create')
+  )
 
   // Updating One game
-  router.patch('/games/:id', middlewares.getItemById(Game), gameController.endpoint('update'))
+  router.patch(
+    '/games/:id',
+    middlewares.authenticateToken,
+    middlewares.getItemById(Game),
+    gameController.endpoint('update')
+  )
 
   // Deleting One game
-  router.delete('/games/:id', middlewares.getItemById(Game), gameController.endpoint('delete'))
+  router.delete(
+    '/games/:id',
+    middlewares.authenticateToken,
+    middlewares.getItemById(Game),
+    gameController.endpoint('delete'))
 }
