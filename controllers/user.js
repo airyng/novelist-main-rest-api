@@ -61,12 +61,8 @@ class UserController extends DefaultController {
   }
 
   async update (req, res) {
-    if (res.item._id !== req.user._id && req.user.role?.title !== 'admin') {
-      res.status(403).json({ message: 'Недостаточно прав для обновления данных профиля.', status: 403, debug: {
-        item: res.item._id,
-        user: req.user._id,
-        role: req.user.role?.title
-      } })
+    if (res.item._id !== req.user._id || req.user.role?.title !== 'admin') {
+      res.status(403).json({ message: 'Недостаточно прав для обновления данных профиля.', status: 403 })
       return
     }
     super.update(req, res)

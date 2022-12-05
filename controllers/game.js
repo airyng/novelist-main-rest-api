@@ -50,6 +50,37 @@ class GameController extends DefaultController {
   }
 
   /**
+   * Обработчик запроса обновляющий все переданные из тела запроса,
+   * если у модели есть такие же поля
+   * Для использования этого метода необходимо подключить посредник "getItemById"
+   * @param {Object} req Объект запроса
+   * @param {Object} res Объект ответа
+   */
+  async update (req, res) {
+    // Если авторизованный пользователь и автор различаются
+    // то такую операцию запрещаем
+    if (req.user.id?.toString() !== res.item.author?.toString()) {
+      return res.sendStatus(403)
+    }
+    super.update(req, res)
+  }
+
+  /**
+   * Обработчик запроса удаляющий запись по id
+   * Для использования этого метода необходимо подключить посредник "getItemById"
+   * @param {Object} req Объект запроса
+   * @param {Object} res Объект ответа
+   */
+   async delete (req, res) {
+    // Если авторизованный пользователь и автор различаются
+    // то такую операцию запрещаем
+    if (req.user.id?.toString() !== res.item.author?.toString()) {
+      return res.sendStatus(403)
+    }
+    super.delete(req, res)
+  }
+
+  /**
    * Обработчик запроса возвращающий записи авторизованного пользователя
    * @param {Object} req Объект запроса
    * @param {Object} res Объект ответа
