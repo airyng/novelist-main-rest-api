@@ -16,4 +16,6 @@ Object.keys(modules).map(key => {
   modules[key](router, middlewares.common)
 })
 
+router.get('/', (req, res) => res.sendStatus(200))
+
 module.exports = router
