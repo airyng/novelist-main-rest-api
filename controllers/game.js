@@ -49,6 +49,19 @@ class GameController extends DefaultController {
     }
   }
 
+  async create (req, res) {
+    const item = new this.model({
+            ...req.body,
+            author: req.user._id
+        })
+    try {
+      const newItem = await item.save()
+      res.status(201).json(newItem)
+    } catch (err) {
+      res.status(400).json({ message: err.message })
+    }
+  }
+
   /**
    * Обработчик запроса обновляющий все переданные из тела запроса,
    * если у модели есть такие же поля
