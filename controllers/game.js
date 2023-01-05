@@ -41,7 +41,7 @@ class GameController extends DefaultController {
   async getItems (req, res) {
     try {
       const items = await this.model
-                      .find()
+                      .find(req.query)
                       .populate('author', ['name', 'avatar_id'])
       res.json(items)
     } catch (err) {
