@@ -6,6 +6,7 @@ const modules = {
   auth: require('./modules/auth.js'),
   users: require('./modules/users.js'),
   games: require('./modules/games.js'),
+  reports: require('./modules/reports.js'),
   sex: require('./modules/sex.js'),
   roles: require('./modules/roles.js'),
   tags: require('./modules/tags.js'),
