@@ -15,15 +15,10 @@ const schema = new mongoose.Schema({
     type: Schema.Types.ObjectId,
     ref: Tag,
     default: null
-  }],
-  created_at: {
-    type: Date,
-    default: Date.now()
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now()
-  }
+  }]
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 module.exports = mongoose.model('Background', schema)

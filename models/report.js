@@ -16,7 +16,10 @@ const schema = new mongoose.Schema({
   screen: {
     type: String,
     default: 'Unknown'
-  }
+  },
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 module.exports = mongoose.model('Report', schema)

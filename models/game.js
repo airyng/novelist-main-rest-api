@@ -15,14 +15,6 @@ const schema = new mongoose.Schema({
     type: String,
     required: true
   },
-  created_at: {
-    type: Date,
-    default: Date.now()
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now()
-  },
   json: {
     type: String,
     required: true
@@ -35,6 +27,9 @@ const schema = new mongoose.Schema({
     type: Date,
     default: null
   }
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 module.exports = mongoose.model('Game', schema)

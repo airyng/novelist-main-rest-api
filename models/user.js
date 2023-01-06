@@ -23,14 +23,6 @@ const schema = new mongoose.Schema({
     type: String,
     default: null
   },
-  created_at: {
-    type: Date,
-    default: Date.now()
-  },
-  updated_at: {
-    type: Date,
-    default: Date.now()
-  },
   sex: {
     type: Schema.Types.ObjectId,
     ref: Sex,
@@ -41,6 +33,9 @@ const schema = new mongoose.Schema({
     ref: Role,
     required: true
   }
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 const userModel = mongoose.model('User', schema)

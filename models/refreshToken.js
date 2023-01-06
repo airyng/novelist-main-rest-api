@@ -4,11 +4,10 @@ const schema = new mongoose.Schema({
   token: {
     type: String,
     required: true
-  },
-  created_at: {
-    type: Date,
-    default: Date.now()
   }
+},
+{
+    timestamps: { createdAt: 'created_at', updatedAt: 'updated_at' }
 })
 
 module.exports = mongoose.model('refresh_token', schema)
